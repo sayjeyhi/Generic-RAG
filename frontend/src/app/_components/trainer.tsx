@@ -19,7 +19,7 @@ import {
 import { useUpload } from "@/lib/hooks/useUpload";
 import { useYouTube } from "@/lib/hooks/useYouTube";
 
-export default function Uploader() {
+export default function Trainer() {
   const { file, loading: uploadLoading, handleFileChange, handleSubmit: handleUploadSubmit } = useUpload();
   const { youtubeLink, loading: youtubeLoading, handleLinkChange, handleSubmit: handleYouTubeSubmit } = useYouTube();
 

@@ -1,9 +1,11 @@
 import {ChangeEvent, FormEvent, useState} from "react";
-import axios from "axios";
+import {trainYoutube} from "@/actions/trainYoutube";
+import {useRouter} from "next/navigation";
 
 export const useYouTube = () => {
   const [youtubeLink, setYoutubeLink] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleLinkChange = (event: ChangeEvent<HTMLInputElement>) => {
     setYoutubeLink(event.target.value);
@@ -16,25 +18,18 @@ export const useYouTube = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('youtubeLink', youtubeLink);
-
     setLoading(true);
 
     try {
-      const response = await axios.post('https://your-server-endpoint.com/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      alert('Upload successful');
-      console.log(response.data);
+      await trainYoutube(youtubeLink)
     } catch (error) {
       console.error('Error uploading:', error);
       alert('Upload failed');
     } finally {
       setLoading(false);
     }
+
+    router.push('/ask');
   };
 
   return { youtubeLink, loading, handleLinkChange, handleSubmit };
